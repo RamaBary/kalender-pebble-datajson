@@ -1,7 +1,8 @@
 {
   "tahun": 2026,
-  "versi": "TEST-BASE-003",
+  "versi": "TEST-BASE-004",
   "kaldik_skb": [
-    { "y": 2026, "b": 5, "h": 20, "tipe": 3, "id": 320, "j": "Libur Mei" }
+    { "y": 2026, "b": 6, "h": 12, "tipe": 2, "id": 100, "j": "Event A" },
+    { "y": 2026, "b": 6, "h": 12, "tipe": 3, "id": 999, "j": "Event Override SKB" }
   ]
 }
