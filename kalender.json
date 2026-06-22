@@ -1,6 +1,23 @@
 {
   "tahun": 2026,
+  "versi": "2026-test-003",
   "kaldik_skb": [
+    {
+      "y": 2026,
+      "b": 5,
+      "h": 10,
+      "tipe": 2,
+      "id": 502,
+      "j": "Uji Event Mei"
+    },
+    {
+      "y": 2026,
+      "b": 5,
+      "h": 20,
+      "tipe": 3,
+      "id": 320,
+      "j": "Uji Libur Mei"
+    },
     {
       "y": 2026,
       "b": 6,
@@ -8,6 +25,22 @@
       "tipe": 2,
       "id": 623,
       "j": "Sukses Jalur Awan"
+    },
+    {
+      "y": 2026,
+      "b": 6,
+      "h": 23,
+      "tipe": 2,
+      "id": 622,
+      "j": "Uji Event Juni"
+    },
+    {
+      "y": 2026,
+      "b": 8,
+      "h": 3,
+      "tipe": 2,
+      "id": 803,
+      "j": "Awal Perkuliahan"
     }
   ]
 }
