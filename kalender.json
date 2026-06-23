@@ -1,15 +1,38 @@
 {
   "tahun": 2026,
-  "versi": "TEST-BASE-005",
+  "versi": "TEST-SLOT-001",
   "kaldik_skb": [
-    { "y": 2026, "b": 5, "h": 1,  "tipe": 2, "id": 501, "j": "Hari Buruh Preview" },
-    { "y": 2026, "b": 5, "h": 20, "tipe": 3, "id": 320, "j": "Libur Mei SKB" },
-
-    { "y": 2026, "b": 6, "h": 1,  "tipe": 2, "id": 601, "j": "Pancasila Day" },
-    { "y": 2026, "b": 6, "h": 12, "tipe": 2, "id": 623, "j": "Jalur Awan Test" },
-    { "y": 2026, "b": 6, "h": 23, "tipe": 2, "id": 622, "j": "Jakarta Day" },
-
-    { "y": 2026, "b": 8, "h": 3,  "tipe": 2, "id": 803, "j": "Kuliah Mulai" },
-    { "y": 2026, "b": 8, "h": 17, "tipe": 3, "id": 817, "j": "HUT RI" }
+    {
+      "y": 2026,
+      "b": 6,
+      "h": 12,
+      "tipe": 2,
+      "id": 623,
+      "j": "Event Biasa 12 Juni"
+    },
+    {
+      "y": 2026,
+      "b": 6,
+      "h": 12,
+      "tipe": 3,
+      "id": 999,
+      "j": "Libur Khusus 12 Juni"
+    },
+    {
+      "y": 2026,
+      "b": 5,
+      "h": 20,
+      "tipe": 3,
+      "id": 320,
+      "j": "Libur Mei SKB"
+    },
+    {
+      "y": 2026,
+      "b": 8,
+      "h": 3,
+      "tipe": 2,
+      "id": 803,
+      "j": "Kuliah Mulai"
+    }
   ]
 }
