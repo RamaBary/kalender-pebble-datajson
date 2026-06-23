@@ -1,6 +1,6 @@
 {
   "tahun": 2026,
-  "versi": "TEST-SLOT-001",
+  "versi": "TEST-SLOT-002",
   "kaldik_skb": [
     {
       "y": 2026,
@@ -8,7 +8,15 @@
       "h": 12,
       "tipe": 2,
       "id": 623,
-      "j": "Event Biasa 12 Juni"
+      "j": "Event Slot 0"
+    },
+    {
+      "y": 2026,
+      "b": 6,
+      "h": 12,
+      "tipe": 2,
+      "id": 622,
+      "j": "Event Slot 1"
     },
     {
       "y": 2026,
@@ -16,23 +24,15 @@
       "h": 12,
       "tipe": 3,
       "id": 999,
-      "j": "Libur Khusus 12 Juni"
+      "j": "Event Slot 2 Libur"
     },
     {
       "y": 2026,
-      "b": 5,
-      "h": 20,
-      "tipe": 3,
-      "id": 320,
-      "j": "Libur Mei SKB"
-    },
-    {
-      "y": 2026,
-      "b": 8,
-      "h": 3,
+      "b": 6,
+      "h": 12,
       "tipe": 2,
       "id": 803,
-      "j": "Kuliah Mulai"
+      "j": "Event Slot 3"
     }
   ]
 }
