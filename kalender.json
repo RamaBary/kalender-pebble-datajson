@@ -1,7 +1,7 @@
 {
   "skema": 2,
   "tahun": 2026,
-  "versi": "2026-v10-2-1-range-today-test",
+  "versi": "2026-v10-2-2-range-today-27-test",
   "peristiwa": [
     {
       "th": 2026,
@@ -122,6 +122,26 @@
       "tp": 1,
       "id": 629,
       "jd": "Libur Lintas Bulan"
+    },
+    {
+      "th": 2026,
+      "bl": 6,
+      "hr": 27,
+      "bs": 6,
+      "sd": 27,
+      "tp": 3,
+      "id": 6271,
+      "jd": "Puasa Muharram Tanggal 27"
+    },
+    {
+      "th": 2026,
+      "bl": 6,
+      "hr": 27,
+      "bs": 6,
+      "sd": 27,
+      "tp": 5,
+      "id": 6272,
+      "jd": "Hari Pohon Tanggal 27"
     }
   ]
 }
