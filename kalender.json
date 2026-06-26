@@ -1,175 +1,97 @@
 {
   "skema": 2,
   "tahun": 2026,
-  "versi": "2026-tes-judul-sangat-panjang-v3",
+  "versi": "2026-v2-range-test-9-31",
   "peristiwa": [
     {
       "th": 2026,
       "bl": 6,
       "hr": 1,
+      "bs": 6,
+      "sd": 1,
       "tp": 1,
       "id": 601,
-      "jd": "Lahir Pancasila Indonesia Nusantara Raya"
+      "jd": "Lahir Pancasila"
     },
     {
       "th": 2026,
       "bl": 6,
-      "hr": 5,
-      "tp": 3,
-      "id": 605,
-      "jd": "12345678911234567892123456789012345678941234567895"
-    },
-    {
-      "th": 2026,
-      "bl": 6,
-      "hr": 6,
-      "tp": 5,
-      "id": 606,
-      "jd": "Tes Umum Saja Panjang Nusantara Raya"
-    },
-    {
-      "th": 2026,
-      "bl": 6,
-      "hr": 12,
-      "tp": 4,
-      "id": 612,
-      "jd": "Tes Akademik Semester Baru Nusantara Raya"
+      "hr": 14,
+      "bs": 6,
+      "sd": 14,
+      "tp": 1,
+      "id": 614,
+      "jd": "Libur Tambahan"
     },
     {
       "th": 2026,
       "bl": 6,
       "hr": 15,
+      "bs": 6,
+      "sd": 18,
       "tp": 1,
-      "id": 6151,
-      "jd": "Tes Libur Nasional Panjang Nusantara Raya"
-    },
-    {
-      "th": 2026,
-      "bl": 6,
-      "hr": 15,
-      "tp": 5,
-      "id": 6152,
-      "jd": "Tes Umum di Libur Panjang Nusantara Raya"
+      "id": 615,
+      "jd": "Cuti Bersama"
     },
     {
       "th": 2026,
       "bl": 6,
       "hr": 16,
-      "tp": 2,
-      "id": 6161,
-      "jd": "Tes Libur Daerah Panjang Nusantara Raya"
+      "bs": 6,
+      "sd": 16,
+      "tp": 3,
+      "id": 616,
+      "jd": "Puasa Muharram"
     },
     {
       "th": 2026,
       "bl": 6,
       "hr": 16,
-      "tp": 3,
-      "id": 6162,
-      "jd": "Tes Hijriah di Libur Panjang Nusantara Raya"
-    },
-    {
-      "th": 2026,
-      "bl": 6,
-      "hr": 17,
-      "tp": 3,
-      "id": 6171,
-      "jd": "Tes Hijriah Kombinasi Panjang Nusantara Raya"
-    },
-    {
-      "th": 2026,
-      "bl": 6,
-      "hr": 17,
+      "bs": 6,
+      "sd": 16,
       "tp": 5,
-      "id": 6172,
-      "jd": "Tes Umum Kombinasi Panjang Nusantara Raya"
+      "id": 617,
+      "jd": "Hari Pohon Sedunia"
     },
     {
       "th": 2026,
       "bl": 6,
-      "hr": 18,
+      "hr": 20,
+      "bs": 6,
+      "sd": 0,
       "tp": 1,
-      "id": 6181,
-      "jd": "Tes Libur Komplet Panjang Nusantara Raya"
+      "id": 620,
+      "jd": "Libur Tunggal A"
     },
     {
       "th": 2026,
       "bl": 6,
-      "hr": 18,
-      "tp": 3,
-      "id": 6182,
-      "jd": "Tes Hijriah Komplet Panjang Nusantara Raya"
-    },
-    {
-      "th": 2026,
-      "bl": 6,
-      "hr": 18,
+      "hr": 21,
+      "bs": 0,
+      "sd": 0,
       "tp": 5,
-      "id": 6183,
-      "jd": "Tes Umum Komplet Panjang Nusantara Raya"
+      "id": 621,
+      "jd": "Event Nonlibur Pemutus"
     },
     {
       "th": 2026,
       "bl": 6,
-      "hr": 20,
-      "tp": 5,
-      "id": 6201,
-      "jd": "Tes Umum Banyak A Panjang Nusantara Raya"
+      "hr": 22,
+      "bs": 6,
+      "sd": 22,
+      "tp": 1,
+      "id": 622,
+      "jd": "Libur Tunggal B"
     },
     {
       "th": 2026,
       "bl": 6,
-      "hr": 20,
-      "tp": 6,
-      "id": 6202,
-      "jd": "Tes Internasional Sangat Panjang Nusantara Raya"
-    },
-    {
-      "th": 2026,
-      "bl": 6,
-      "hr": 24,
-      "tp": 2,
-      "id": 6241,
-      "jd": "Tes Today Libur Panjang Nusantara Raya"
-    },
-    {
-      "th": 2026,
-      "bl": 6,
-      "hr": 24,
-      "tp": 3,
-      "id": 6242,
-      "jd": "Tes Today Hijriah Panjang Nusantara Raya"
-    },
-    {
-      "th": 2026,
-      "bl": 6,
-      "hr": 24,
-      "tp": 5,
-      "id": 6243,
-      "jd": "Tes Today Umum Panjang Nusantara Raya"
-    },
-    {
-      "th": 2026,
-      "bl": 6,
-      "hr": 30,
-      "tp": 5,
-      "id": 630,
-      "jd": "Tes Baris Akhir Satu Panjang Nusantara Raya"
-    },
-    {
-      "th": 2026,
-      "bl": 7,
-      "hr": 31,
-      "tp": 3,
-      "id": 7311,
-      "jd": "Tes Akhir Hijriah Panjang Nusantara Raya"
-    },
-    {
-      "th": 2026,
-      "bl": 7,
-      "hr": 31,
-      "tp": 5,
-      "id": 7312,
-      "jd": "Tes Akhir Umum Panjang Nusantara Raya"
+      "hr": 29,
+      "bs": 7,
+      "sd": 2,
+      "tp": 1,
+      "id": 629,
+      "jd": "Libur Lintas Bulan"
     }
   ]
 }
