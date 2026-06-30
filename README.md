@@ -19,12 +19,12 @@ kalender-indonesia-pebble/
 │   ├── kalender.json
 │   ├── keterangan.json
 │   └── katalog/
-│       ├── akademik.json
-│       ├── hijriah.json
-│       ├── internasional.json
-│       ├── libur-daerah.json
 │       ├── libur-nasional.json
-│       └── umum.json
+│       ├── libur-daerah.json
+│       ├── hijriah.json
+│       ├── akademik.json
+│       ├── umum.json
+│       └── internasional.json
 ├── settings/
 │   ├── index.html
 │   ├── app.html
@@ -41,20 +41,20 @@ Keterangan:
 - `data/kalender.json`: indeks tetap yang mencantumkan file data yang dibaca aplikasi
 - `data/katalog/*.json`: data peristiwa menurut kategori
 - `data/keterangan.json`: keterangan panjang berdasarkan ID peristiwa
-- `settings/index.html`: halaman shell ringan yang dibuka lebih dahulu, menampilkan proses pemuatan, lalu memuat `app.html`
-- `settings/app.html`: halaman lengkap yang berisi tampilan, pengaturan, dan logika halaman konfigurasi
+- `settings/index.html`: halaman pembuka pengaturan
+- `settings/app.html`: halaman lengkap pengaturan
 - `settings/assets/`: gambar yang digunakan halaman pengaturan
-- `timeline/`: dokumentasi integrasi Timeline dan contoh format pin
+- `timeline/`: dokumentasi Timeline dan contoh format pin
 
 *Notes:*
 
 - *`data/kalender.json`: a stable index listing the data files read by the app*
 - *`data/katalog/*.json`: event data grouped by category*
 - *`data/keterangan.json`: long descriptions linked by event ID*
-- *`settings/index.html`: a lightweight shell loaded first to show the loading state and then load `app.html`*
-- *`settings/app.html`: the complete settings page containing its interface, configuration, and page logic*
+- *`settings/index.html`: the settings entry page*
+- *`settings/app.html`: the complete settings page*
 - *`settings/assets/`: images used by the settings page*
-- *`timeline/`: Timeline integration documentation and a pin-format example*
+- *`timeline/`: Timeline documentation and a pin-format example*
 
 ---
 
@@ -98,36 +98,40 @@ Tipe `7` tidak disimpan dalam repositori publik. Peristiwa pribadi dikelola mela
 {"th":0,"bm":6,"bs":6,"hm":1,"hs":1,"tp":5,"id":20001,"jd":"Hari Lahir Pancasila"}
 ```
 
-Aturan tahun:
+Aturan tahun dan tanggal:
 
 - `th:2026` berarti peristiwa hanya berlaku pada tahun 2026
-- `th:0` berarti peristiwa berulang setiap tahun
+- `th:0` atau tahun kosong berarti peristiwa berulang setiap tahun
+- bulan mulai dan hari mulai wajib berisi angka yang valid serta tidak boleh `0`
+- bulan selesai kosong atau `0` berarti sama dengan bulan mulai
+- hari selesai kosong atau `0` berarti sama dengan hari mulai
+- jika bulan dan hari selesai tidak diisi, peristiwa dianggap berlangsung satu hari
 - field `ut` tidak digunakan
-- field `th` tidak boleh dikosongkan
-- peristiwa tidak berulang wajib memakai tahun sebenarnya
 
-*Year rules:*
+*Year and date rules:*
 
 - *`th:2026` means the event applies only to 2026*
-- *`th:0` means the event repeats every year*
+- *`th:0` or an empty year means the event repeats every year*
+- *the start month and start day must contain valid numbers and cannot be `0`*
+- *an empty or `0` end month uses the start month*
+- *an empty or `0` end day uses the start day*
+- *when the end month and end day are omitted, the event is treated as a one-day event*
 - *the `ut` field is not used*
-- *the `th` field must not be left blank*
-- *a non-recurring event must use its actual year*
 
 ### Arti field
 
-*Field meanings*
+*Field Meanings*
 
-| Field | Kelompok | Arti | *Meaning* |
-|---|---|---|---|
-| `th` | Waktu | Tahun; `0` untuk berulang setiap tahun | *Year; use `0` for annual recurrence* |
-| `bm` | Waktu | Bulan mulai | *Start month* |
-| `bs` | Waktu | Bulan selesai | *End month* |
-| `hm` | Waktu | Hari mulai | *Start day* |
-| `hs` | Waktu | Hari selesai | *End day* |
-| `tp` | Klasifikasi | Tipe peristiwa | *Event type* |
-| `id` | Identitas | ID unik dan stabil | *Stable unique ID* |
-| `jd` | Tampilan | Judul pendek, maksimal 39 karakter | *Short title, maximum 39 characters* |
+| Field | Arti | *Meaning* |
+|---|---|---|
+| `th` | Tahun; `0` atau kosong untuk berulang setiap tahun | *Year; use `0` or leave blank for annual recurrence* |
+| `bm` | Bulan mulai | *Start month* |
+| `bs` | Bulan selesai | *End month* |
+| `hm` | Hari mulai | *Start day* |
+| `hs` | Hari selesai | *End day* |
+| `tp` | Tipe peristiwa | *Event type* |
+| `id` | ID unik dan stabil | *Stable unique ID* |
+| `jd` | Judul pendek, maksimal 39 karakter | *Short title, maximum 39 characters* |
 
 Aturan penting:
 
@@ -149,13 +153,37 @@ Aturan penting:
 
 ---
 
+## Struktur File Kategori
+
+*Category File Structure*
+
+Setiap file kategori hanya memuat nama kategori dan daftar peristiwa. Metadata versi tidak disimpan dalam file kategori karena perubahan isi dicatat melalui riwayat commit.
+
+*Each category file contains only the category name and its event list. Version metadata is not stored in category files because content changes are recorded in the commit history.*
+
+```json
+{
+  "kategori": "internasional",
+  "peristiwa": [
+    {"th":0,"bm":1,"bs":1,"hm":4,"hs":4,"tp":6,"id":24001,"jd":"World Braille Day"},
+    {"th":0,"bm":1,"bs":1,"hm":24,"hs":24,"tp":6,"id":24002,"jd":"International Day of Education"}
+  ]
+}
+```
+
+Field `skema` tidak diulang pada setiap file kategori. Struktur global data ditentukan oleh `data/kalender.json`, sehingga perubahan format cukup dikelola dari satu indeks utama.
+
+*The `skema` field is not repeated in every category file. The global data structure is defined by `data/kalender.json`, allowing format changes to be managed from one main index.*
+
+---
+
 ## Aturan ID Peristiwa
 
 *Event ID Rules*
 
-ID tidak disusun dari tipe, bulan, dan hari. Tanggal peristiwa tentatif dapat berubah setiap tahun, beberapa peristiwa dapat berada pada tanggal yang sama, dan susunan tanpa angka tetap dapat menghasilkan ID yang bertabrakan.
+ID tidak disusun dari tipe, bulan, dan hari. Tanggal peristiwa tentatif dapat berubah setiap tahun, beberapa peristiwa dapat berada pada tanggal yang sama, dan susunan tanggal dapat menghasilkan ID yang bertabrakan.
 
-*IDs are not composed from the type, month, and day. Tentative event dates can change each year, multiple events can share the same date, and variable-length date combinations can produce collisions.*
+*IDs are not composed from the type, month, and day. Tentative event dates can change every year, multiple events can share the same date, and date combinations can produce collisions.*
 
 Gunakan rumus:
 
@@ -163,16 +191,14 @@ Gunakan rumus:
 id = (tp × 4000) + nomor urut kategori
 ```
 
-Rentang awal:
-
-| Tipe | Rentang ID |
-|---:|---:|
-| 1 | 4001–7999 |
-| 2 | 8001–11999 |
-| 3 | 12001–15999 |
-| 4 | 16001–19999 |
-| 5 | 20001–23999 |
-| 6 | 24001–27999 |
+| Tipe | Kategori | Rentang ID |
+|---:|---|---:|
+| 1 | Libur Nasional | 4001–7999 |
+| 2 | Libur Daerah | 8001–11999 |
+| 3 | Peristiwa Hijriah | 12001–15999 |
+| 4 | Peristiwa Akademik | 16001–19999 |
+| 5 | Peristiwa Umum | 20001–23999 |
+| 6 | Peristiwa Internasional | 24001–27999 |
 
 Aturan nomor urut:
 
@@ -198,34 +224,43 @@ Aturan nomor urut:
 
 *Managing Data with Excel*
 
-Satu sheet Excel digunakan untuk satu kategori peristiwa, misalnya Akademik, Hijriah, Internasional, Libur Daerah, Libur Nasional, atau Umum. Baris `1` digunakan sebagai judul kolom dan pengisian data dimulai dari baris `2`.
+Satu sheet Excel digunakan untuk satu kategori peristiwa dengan urutan:
 
-*One Excel sheet is used for one event category, such as Academic, Hijri, International, Regional Holiday, National Holiday, or General. Row `1` contains the column headings and data entry begins on row `2`.*
+1. Libur Nasional
+2. Libur Daerah
+3. Peristiwa Hijriah
+4. Peristiwa Akademik
+5. Peristiwa Umum
+6. Peristiwa Internasional
+
+Baris `1` digunakan sebagai judul kolom dan pengisian data dimulai dari baris `2`.
+
+*One Excel sheet is used for each event category in type order. Row `1` contains the column headings and data entry begins on row `2`.*
 
 ### Susunan kolom
 
-*Column layout*
+*Column Layout*
 
 | Kolom | Field | Nama | Isi |
 |---|---|---|---|
-| A | `th` | Tahun | Isi `0` untuk berulang atau tahun sebenarnya |
-| B | `bm` | Bulan Mulai | Angka 1–12 |
-| C | `bs` | Bulan Selesai | Angka 1–12 |
-| D | `hm` | Hari Mulai | Angka 1–31 |
-| E | `hs` | Hari Selesai | Angka 1–31 |
+| A | `th` | Tahun | Kosong atau `0` untuk berulang; isi tahun sebenarnya untuk satu tahun |
+| B | `bm` | Bulan Mulai | Angka 1–12; wajib diisi dan tidak boleh `0` |
+| C | `bs` | Bulan Selesai | Kosong atau `0` untuk mengikuti bulan mulai |
+| D | `hm` | Hari Mulai | Angka 1–31; wajib diisi dan tidak boleh `0` |
+| E | `hs` | Hari Selesai | Kosong atau `0` untuk mengikuti hari mulai |
 | F | `tp` | Tipe | Angka 1–6 |
-| G | — | Nomor Urut ID | Angka 1–3999, tidak boleh dipakai ulang |
+| G | — | Nomor Urut ID | Angka 1–3999 dan tidak boleh dipakai ulang |
 | H | `id` | ID | Dibentuk otomatis dari tipe dan nomor urut |
 | I | `jd` | Judul Pendek | Maksimal 39 karakter |
-| J | `ket` | Keterangan | Opsional; boleh dikosongkan |
+| J | `ket` | Keterangan | Opsional dan boleh dikosongkan |
 | K | — | JSON Peristiwa | Dibentuk otomatis |
 | L | — | JSON Keterangan | Dibentuk otomatis jika kolom J terisi |
 
-*Columns A–J are the maintained source data. Columns H, K, and L use formulas to generate the stable ID, event JSON, and description JSON.*
+*Columns A–J contain the maintained source data. Columns H, K, and L use formulas to generate the stable ID, event JSON, and description JSON.*
 
 ### Formula ID pada H2
 
-*ID formula in H2*
+*ID Formula in H2*
 
 Versi pemisah titik koma:
 
@@ -245,33 +280,36 @@ Salin formula H2 ke bawah sampai baris data terakhir.
 
 ### Formula JSON peristiwa pada K2
 
-*Event JSON formula in K2*
+*Event JSON Formula in K2*
 
 Versi pemisah titik koma:
 
 ```excel
-=IF(OR(A2="";B2="";C2="";D2="";E2="";F2="";H2="";I2="");"";IF(LEN(I2)>39;"ERROR: Judul lebih dari 39 karakter";"{""th"":"&A2&",""bm"":"&B2&",""bs"":"&C2&",""hm"":"&D2&",""hs"":"&E2&",""tp"":"&F2&",""id"":"&H2&",""jd"":"""&SUBSTITUTE(SUBSTITUTE(I2;CHAR(92);CHAR(92)&CHAR(92));CHAR(34);CHAR(92)&CHAR(34))&"""}"&IF(COUNTIF(H3:H$1000;"<>")>0;",";"")))
+=IF(OR(B2="";B2=0;D2="";D2=0;F2="";H2="";I2="");"ERROR: Data wajib belum lengkap";IF(OR(B2<1;B2>12;D2<1;D2>31;AND(C2<>"";C2<>0;OR(C2<1;C2>12));AND(E2<>"";E2<>0;OR(E2<1;E2>31)));"ERROR: Bulan atau hari tidak valid";IF(LEN(I2)>39;"ERROR: Judul lebih dari 39 karakter";"{""th"":"&IF(A2="";0;A2)&",""bm"":"&B2&",""bs"":"&IF(OR(C2="";C2=0);B2;C2)&",""hm"":"&D2&",""hs"":"&IF(OR(E2="";E2=0);D2;E2)&",""tp"":"&F2&",""id"":"&H2&",""jd"":"""&SUBSTITUTE(SUBSTITUTE(I2;CHAR(92);CHAR(92)&CHAR(92));CHAR(34);CHAR(92)&CHAR(34))&"""}"&IF(COUNTIF(H3:H$1000;"<>")>0;",";""))))
 ```
 
 Versi pemisah koma:
 
 ```excel
-=IF(OR(A2="",B2="",C2="",D2="",E2="",F2="",H2="",I2=""),"",IF(LEN(I2)>39,"ERROR: Judul lebih dari 39 karakter","{""th"":"&A2&",""bm"":"&B2&",""bs"":"&C2&",""hm"":"&D2&",""hs"":"&E2&",""tp"":"&F2&",""id"":"&H2&",""jd"":"""&SUBSTITUTE(SUBSTITUTE(I2,CHAR(92),CHAR(92)&CHAR(92)),CHAR(34),CHAR(92)&CHAR(34))&"""}"&IF(COUNTIF(H3:H$1000,"<>")>0,",","")))
+=IF(OR(B2="",B2=0,D2="",D2=0,F2="",H2="",I2=""),"ERROR: Data wajib belum lengkap",IF(OR(B2<1,B2>12,D2<1,D2>31,AND(C2<>"",C2<>0,OR(C2<1,C2>12)),AND(E2<>"",E2<>0,OR(E2<1,E2>31))),"ERROR: Bulan atau hari tidak valid",IF(LEN(I2)>39,"ERROR: Judul lebih dari 39 karakter","{""th"":"&IF(A2="",0,A2)&",""bm"":"&B2&",""bs"":"&IF(OR(C2="",C2=0),B2,C2)&",""hm"":"&D2&",""hs"":"&IF(OR(E2="",E2=0),D2,E2)&",""tp"":"&F2&",""id"":"&H2&",""jd"":"""&SUBSTITUTE(SUBSTITUTE(I2,CHAR(92),CHAR(92)&CHAR(92)),CHAR(34),CHAR(92)&CHAR(34))&"""}"&IF(COUNTIF(H3:H$1000,"<>")>0,",",""))))
 ```
 
 Formula tersebut:
 
-- menolak baris dengan field wajib yang kosong
-- menerima `th:0` sebagai peristiwa tahunan
+- mengubah tahun kosong menjadi `th:0`
+- menolak bulan mulai atau hari mulai yang kosong atau `0`
+- menggunakan bulan mulai jika bulan selesai kosong atau `0`
+- menggunakan hari mulai jika hari selesai kosong atau `0`
+- memeriksa rentang dasar bulan dan hari
 - memeriksa batas judul 39 karakter
 - mengamankan tanda `\` dan tanda kutip dalam judul
 - menambahkan koma jika masih ada data di bawah baris aktif
 
-*The formula rejects incomplete rows, accepts `th:0` as an annual event, checks the 39-character title limit, escapes backslashes and quotation marks, and adds a comma when more records follow.*
+*The formula converts an empty year to `th:0`, rejects an empty or zero start month or day, defaults missing end values to the start values, checks basic month and day ranges, validates the title length, escapes special characters, and adds a comma when more records follow.*
 
 ### Formula JSON keterangan pada L2
 
-*Description JSON formula in L2*
+*Description JSON Formula in L2*
 
 Versi pemisah titik koma:
 
@@ -290,45 +328,40 @@ Formula tersebut:
 - menghasilkan baris hanya jika keterangan tersedia
 - menggunakan ID yang sama dengan peristiwa
 - mengamankan tanda `\`, tanda kutip, dan pindah baris
-- tidak membutuhkan sheet terpisah untuk keterangan
+- tidak membutuhkan tabel keterangan terpisah pada setiap sheet
 
-*The formula generates a row only when a description is available, uses the same event ID, escapes special characters and line breaks, and does not require a separate description sheet.*
+*The formula generates a row only when a description is available, uses the same event ID, escapes special characters and line breaks, and does not require a separate description table on each sheet.*
 
-Formula di atas memeriksa data sampai baris `1000`. Jika satu kategori melebihi baris tersebut, sesuaikan batas `$1000`.
+Formula memeriksa data sampai baris `1000`. Sesuaikan batas `$1000` jika jumlah data melebihi batas tersebut.
 
-*The formulas check records through row `1000`. Increase the `$1000` limit if a category grows beyond that row.*
+*The formulas check records through row `1000`. Increase the `$1000` limit when a category exceeds that row.*
 
 ---
 
-## Prosedur Pengisian dan Pembaruan
+## Menyalin JSON Peristiwa
 
-*Data Entry and Update Procedure*
+*Copying Event JSON*
 
 1. Buka sheet kategori yang akan diperbarui
 2. Isi data mulai dari baris `2`
-3. Isi `th` dengan `0` untuk peristiwa berulang atau dengan tahun sebenarnya untuk peristiwa satu tahun
-4. Isi nomor urut ID baru pada kolom G
-5. Salin formula H2, K2, dan L2 ke seluruh baris data
-6. Periksa apakah kolom K menampilkan JSON dan bukan pesan error
-7. Salin hasil kolom K
-8. Buka file JSON kategori yang sesuai
-9. Tempel hasil kolom K di antara tanda `[` dan `]` pada bagian `peristiwa`
-10. Jika terdapat keterangan, salin hasil kolom L
-11. Buka `data/keterangan.json` dan tempel hasil kolom L ke dalam objek `keterangan`
-12. Simpan perubahan
-13. Pada halaman GitHub, periksa tab perubahan, lalu pilih **Commit changes**
+3. Salin formula H2, K2, dan L2 ke seluruh baris data
+4. Pastikan kolom K menampilkan JSON dan bukan pesan error
+5. Salin hasil kolom K
+6. Buka file JSON kategori yang sesuai pada GitHub
+7. Pilih **Edit this file**
+8. Tempel hasil kolom K di antara tanda `[` dan `]` pada bagian `peristiwa`
+9. Periksa agar objek terakhir tidak memiliki koma
+10. Pilih **Commit changes** atau ajukan pull request jika tidak memiliki akses tulis
 
-*Open the required category sheet, enter data from row `2`, fill the formulas down, copy the generated event JSON into the relevant category file, copy optional description JSON into `data/keterangan.json`, save the changes, review them on GitHub, and select **Commit changes**.*
+*Open the required category sheet, enter data from row `2`, fill the formulas down, copy column K, edit the matching category JSON file on GitHub, paste the generated rows into the `peristiwa` array, verify the final comma, and commit the change or submit a pull request.*
 
-### Lokasi penempelan JSON peristiwa
+### Lokasi penempelan
 
-*Event JSON paste location*
+*Paste Location*
 
 ```text
 {
-  "skema": 3,
   "kategori": "internasional",
-  "versi": "1",
   "peristiwa": [
     TEMPEL HASIL KOLOM K DI SINI
   ]
@@ -337,13 +370,11 @@ Formula di atas memeriksa data sampai baris `1000`. Jika satu kategori melebihi 
 
 Contoh setelah ditempel:
 
-*Example after pasting:*
+*Example After Pasting:*
 
 ```json
 {
-  "skema": 3,
   "kategori": "internasional",
-  "versi": "1",
   "peristiwa": [
     {"th":0,"bm":1,"bs":1,"hm":4,"hs":4,"tp":6,"id":24001,"jd":"World Braille Day"},
     {"th":0,"bm":1,"bs":1,"hm":24,"hs":24,"tp":6,"id":24002,"jd":"International Day of Education"}
@@ -351,70 +382,98 @@ Contoh setelah ditempel:
 }
 ```
 
-### Lokasi penempelan JSON keterangan
+---
 
-*Description JSON paste location*
+## Menyatukan Keterangan dari Semua Kategori
+
+*Merging Descriptions from All Categories*
+
+Buat satu sheet tambahan bernama `Keterangan Universal`. Sheet ini hanya digunakan untuk menyatukan hasil kolom L dari seluruh sheet kategori.
+
+*Create one additional sheet named `Keterangan Universal`. This sheet is used only to combine the values generated in column L from every category sheet.*
+
+Urutan penggabungan:
+
+1. Libur Nasional
+2. Libur Daerah
+3. Peristiwa Hijriah
+4. Peristiwa Akademik
+5. Peristiwa Umum
+6. Peristiwa Internasional
+
+Langkah:
+
+1. Pada setiap sheet kategori, salin sel kolom L yang tidak kosong
+2. Tempel sebagai nilai secara berurutan mulai dari `A2` pada sheet `Keterangan Universal`
+3. Jangan menambahkan baris kosong di antara kategori
+4. Periksa agar tidak terdapat ID ganda
+5. Pastikan hanya baris terakhir yang tidak memiliki koma
+6. Salin seluruh hasil dari sheet `Keterangan Universal`
+7. Buka `data/keterangan.json` pada GitHub
+8. Tempel hasilnya ke dalam objek `keterangan`
+9. Pilih **Commit changes** atau ajukan pull request jika tidak memiliki akses tulis
+
+*Copy every non-empty value from column L of each category sheet, paste the values in type order into the `Keterangan Universal` sheet, check for duplicate IDs and the final comma, then paste the combined result into the `keterangan` object in `data/keterangan.json`.*
+
+### Lokasi penempelan
+
+*Paste Location*
 
 ```text
 {
-  "skema": 1,
   "keterangan": {
-    TEMPEL HASIL KOLOM L DI SINI
+    TEMPEL HASIL SHEET KETERANGAN UNIVERSAL DI SINI
   }
 }
 ```
 
 Contoh setelah ditempel:
 
-*Example after pasting:*
+*Example After Pasting:*
 
 ```json
 {
-  "skema": 1,
   "keterangan": {
-    "24001":{"ket":"World Braille Day raises awareness of the importance of Braille."},
-    "24002":{"ket":"International Day of Education recognizes the role of education in peace and development."}
+    "4001":{"ket":"Keterangan untuk peristiwa libur nasional."},
+    "24001":{"ket":"World Braille Day raises awareness of the importance of Braille."}
   }
 }
 ```
 
-Jika kolom J kosong, kolom L juga kosong dan ID tersebut tidak perlu dimasukkan ke `keterangan.json`. Aplikasi cukup menampilkan judul pendek.
+Jika kolom J pada sheet kategori kosong, kolom L juga kosong dan ID tersebut tidak perlu dimasukkan ke `keterangan.json`. Aplikasi cukup menampilkan judul pendek.
 
 *When column J is empty, column L also remains empty and the ID does not need to be included in `keterangan.json`. The app displays only the short title.*
 
 ---
 
-## Pembagian Data Tetap dan Tentatif
+## Indeks Data Utama
 
-*Fixed and Tentative Data*
+*Main Data Index*
 
-Peristiwa tetap memakai:
+`data/kalender.json` menjadi satu alamat tetap yang dibaca aplikasi. File ini mencantumkan seluruh file kategori dan file keterangan.
 
-```json
-"th":0
-```
+*`data/kalender.json` is the stable data address read by the app. It lists all category files and the description file.*
 
-Peristiwa tentatif atau yang hanya berlaku pada satu tahun memakai tahun sebenarnya:
+Contoh struktur:
 
 ```json
-"th":2026
+{
+  "skema": 3,
+  "berkas": [
+    "katalog/libur-nasional.json",
+    "katalog/libur-daerah.json",
+    "katalog/hijriah.json",
+    "katalog/akademik.json",
+    "katalog/umum.json",
+    "katalog/internasional.json"
+  ],
+  "keterangan": "keterangan.json"
+}
 ```
 
-Contoh data tentatif:
+Field `skema` hanya disimpan pada indeks utama untuk menandai kontrak struktur data. Nomor tersebut berubah hanya jika nama field atau bentuk data berubah, bukan ketika tanggal, judul, atau keterangan diperbarui.
 
-- libur nasional berdasarkan keputusan tahunan
-- libur daerah
-- kalender akademik
-- peristiwa Hijriah
-
-Contoh data tetap:
-
-- peringatan umum nonlibur
-- peringatan internasional dengan tanggal tetap
-
-PebbleKit JS hanya mengirim peristiwa `th:0` dan peristiwa yang tahunnya sesuai dengan tahun aktif. Data untuk tahun lain tetap berada dalam repositori dan tidak dikirim seluruhnya ke memori watch.
-
-*PebbleKit JS sends only events with `th:0` and events matching the active year. Records for other years remain in the repository and are not all transferred to watch memory.*
+*The `skema` field is stored only in the main index to identify the data-structure contract. It changes only when field names or the data shape change, not when dates, titles, or descriptions are updated.*
 
 ---
 
@@ -422,7 +481,7 @@ PebbleKit JS hanya mengirim peristiwa `th:0` dan peristiwa yang tahunnya sesuai 
 
 *File Maintenance*
 
-Nama file aktif tidak memuat nomor versi. Setiap perbaikan dilakukan dengan mengedit isi file yang sama.
+Nama file aktif tidak memuat nomor versi. Setiap pembaruan dilakukan dengan mengedit isi file yang sama.
 
 *Active filenames do not contain version numbers. Every update edits the content of the same file.*
 
@@ -435,9 +494,9 @@ settings/app.html
 settings/index.html
 ```
 
-Nomor versi dicatat melalui pesan commit, tag Git, dan metadata `versi` di dalam JSON jika diperlukan.
+Riwayat perubahan tersedia melalui commit Git.
 
-*Version numbers are recorded through commit messages, Git tags, and the JSON `versi` metadata when needed.*
+*The change history is available through Git commits.*
 
 Jangan mengunggah file baru hanya untuk mengganti versi dari file aktif yang sama.
 
@@ -449,7 +508,7 @@ Jangan mengunggah file baru hanya untuk mengganti versi dari file aktif yang sam
 
 *Settings Page*
 
-Halaman pengaturan terdiri atas:
+Halaman pengaturan menggunakan file berikut:
 
 ```text
 settings/index.html
@@ -457,25 +516,15 @@ settings/app.html
 settings/assets/
 ```
 
-`settings/index.html` adalah shell ringan. File ini dibuka pertama kali, menampilkan status pemuatan, lalu mengambil dan menampilkan isi `settings/app.html`.
-
-*`settings/index.html` is a lightweight shell. It opens first, displays the loading state, and then retrieves and renders `settings/app.html`.*
-
-`settings/app.html` adalah halaman lengkap. File ini berisi tampilan pengaturan, teks, tombol, modal, penyimpanan lokal, serta logika komunikasi halaman dengan PebbleKit JS.
-
-*`settings/app.html` is the complete page. It contains the settings interface, text, buttons, modals, local storage, and page communication logic with PebbleKit JS.*
-
-Pemisahan ini mempertahankan URL pengaturan yang stabil dan mengurangi kemungkinan halaman tampak kosong ketika isi lengkap sedang dimuat.
-
-*This separation keeps the settings URL stable and reduces the chance of showing a blank page while the full content is loading.*
+*The settings page uses the files listed above.*
 
 ---
 
 ## Timeline
 
-Folder `timeline/` memuat dokumentasi integrasi Timeline dan contoh struktur pin. Data Timeline menggunakan sumber peristiwa yang sama dari JSON kategori sehingga tidak memerlukan pemeliharaan daftar kalender kedua.
+Folder `timeline/` memuat dokumentasi Timeline dan contoh struktur pin. Data Timeline menggunakan sumber peristiwa yang sama dari JSON kategori sehingga tidak memerlukan pemeliharaan daftar kalender kedua.
 
-*The `timeline/` folder contains Timeline integration documentation and a pin-structure example. Timeline data uses the same category JSON source, avoiding maintenance of a second calendar list.*
+*The `timeline/` folder contains Timeline documentation and a pin-structure example. Timeline data uses the same category JSON source, avoiding maintenance of a second calendar list.*
 
 ---
 
@@ -483,6 +532,6 @@ Folder `timeline/` memuat dokumentasi integrasi Timeline dan contoh struktur pin
 
 *Development Status*
 
-Aplikasi masih berada pada tahap pengembangan internal dan belum menjadi rilis publik.
+Aplikasi masih berada pada tahap pengembangan dan belum menjadi rilis publik.
 
-*The app is still under internal development and has not yet reached its public release.*
+*The app is still under development and has not yet reached its public release.*
